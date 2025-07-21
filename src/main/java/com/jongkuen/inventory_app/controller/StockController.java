@@ -41,4 +41,14 @@ public class StockController {
     public void delete(@PathVariable Long id){
         stockService.delete(id);
     }
+
+    @PostMapping("/transfer")
+    public void transfer(
+            @RequestParam Long productId,
+            @RequestParam Long srcWarehouseId,
+            @RequestParam Long destWarehouseId,
+            @RequestParam int quantity
+    ) {
+        stockService.transferStock(productId, srcWarehouseId, destWarehouseId, quantity);
+    }
 }
