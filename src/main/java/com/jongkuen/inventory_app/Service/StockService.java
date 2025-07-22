@@ -1,6 +1,7 @@
 package com.jongkuen.inventory_app.Service;
 
 import com.jongkuen.inventory_app.dto.StockDto;
+import com.jongkuen.inventory_app.dto.StockResponseDto;
 import com.jongkuen.inventory_app.dto.StockUpdateDto;
 import com.jongkuen.inventory_app.model.Product;
 import com.jongkuen.inventory_app.model.Stock;
@@ -26,8 +27,18 @@ public class StockService {
     private final ProductRepository productRepository;
     private final WarehouseRepository warehouseRepository;
 
-    public List<Stock> search(StockSearchCondition condition) {
-        return queryRepository.search(condition);
+    public List<StockResponseDto> search(StockSearchCondition cond) {
+        List<Stock> stocks = queryRepository.search(cond);
+
+        return  stocks.stream()
+                .map((stock) -> new StockResponseDto(
+                        stock.getId(),
+                        stock.getQuantity(),
+                        stock.getProduct().getId(),
+                        stock.getProduct().getName(),
+                        stock.getWarehouse().getId(),
+                        stock.getWarehouse().getName()
+                )).toList();
     }
 
     public Stock getById(Long id){
