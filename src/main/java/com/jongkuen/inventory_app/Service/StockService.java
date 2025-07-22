@@ -31,14 +31,7 @@ public class StockService {
         List<Stock> stocks = queryRepository.search(cond);
 
         return  stocks.stream()
-                .map((stock) -> new StockResponseDto(
-                        stock.getId(),
-                        stock.getQuantity(),
-                        stock.getProduct().getId(),
-                        stock.getProduct().getName(),
-                        stock.getWarehouse().getId(),
-                        stock.getWarehouse().getName()
-                )).toList();
+                .map(StockResponseDto::fromEntity).toList();
     }
 
     public Stock getById(Long id){
